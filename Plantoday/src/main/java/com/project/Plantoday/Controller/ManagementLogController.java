@@ -5,6 +5,8 @@ import com.project.Plantoday.Entity.ManagementLog;
 import com.project.Plantoday.Service.ManagementLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,15 @@ public class ManagementLogController {
     }
 
     @GetMapping("{plantId}")
-    public ResponseEntity<List<ManagementLog>>getManagementLogs(@PathVariable Long plantId){
+    public ResponseEntity<List<ManagementLog>>getManagementLogs(@PathVariable("plantId") Long plantId){
         return ResponseEntity.ok(managementLogService.getManagementLogs(plantId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<ManagementLog>> getAllManagementLogsForUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return ResponseEntity.ok(managementLogService.getAllLogsForUser(username));
+    }
+
 }
