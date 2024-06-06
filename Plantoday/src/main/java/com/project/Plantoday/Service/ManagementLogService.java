@@ -49,4 +49,10 @@ public class ManagementLogService {
         User user = userRepository.findByUsername(username);
         return managementLogRepository.findByUser(user);
     }
+
+    public List<ManagementLog> getLogsForUserAndPlant(String username, Long plantId){
+        User user=userRepository.findByUsername(username);
+        Plant plant=plantRepository .findById(plantId).orElseThrow(() -> new IllegalArgumentException("Invalid plant ID"));
+        return managementLogRepository.findByUserAndPlant(user,plant);
+    }
 }

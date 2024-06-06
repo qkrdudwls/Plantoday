@@ -26,7 +26,9 @@ public class ManagementLogController {
 
     @GetMapping("{plantId}")
     public ResponseEntity<List<ManagementLog>>getManagementLogs(@PathVariable("plantId") Long plantId){
-        return ResponseEntity.ok(managementLogService.getManagementLogs(plantId));
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        String username=authentication.getName();
+        return ResponseEntity.ok(managementLogService.getLogsForUserAndPlant(username, plantId));
     }
 
     @GetMapping
