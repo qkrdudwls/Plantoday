@@ -8,6 +8,7 @@ import com.project.Plantoday.Repository.PlantRepository;
 import com.project.Plantoday.Repository.PlantTypeRepository;
 import com.project.Plantoday.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,12 @@ public class PlantService {
         User user = userRepository.findByUsername(username);
         return plantRepository.findByIdAndUser(plantId, user)
                 .orElseThrow(() -> new IllegalArgumentException("Plant not found"));
+    }
+
+    public List<Plant> getPlantsForCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        return plantRepository.findByUser(user);
     }
 }

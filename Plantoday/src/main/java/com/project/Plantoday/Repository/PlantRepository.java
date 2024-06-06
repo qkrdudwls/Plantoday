@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface PlantRepository extends JpaRepository<Plant, Long> {
     List<Plant> findAllByUserUsername(String username);
     Optional<Plant> findByIdAndUser(Long id, User user);
+    List<Plant> findByUser(User user);
 }

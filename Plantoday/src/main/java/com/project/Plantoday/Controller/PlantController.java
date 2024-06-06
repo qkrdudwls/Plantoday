@@ -24,6 +24,7 @@ public class PlantController {
 
     @GetMapping
     public ResponseEntity<List<Plant>> getPlants() {
+        List<Plant> plants = plantService.getPlantsForCurrentUser();
         return ResponseEntity.ok(plantService.getPlants());
     }
 }
