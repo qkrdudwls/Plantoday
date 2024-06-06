@@ -42,6 +42,6 @@ public class ManagementLogService {
         User user = userRepository.findByUsername(username);
         Plant plant = plantRepository.findByIdAndUser(plantId, user)
                 .orElseThrow(() -> new IllegalArgumentException("Plant not found or not authorized"));
-        return managementLogRepository.findAllByUserAndPlant(user, plant);
+        return managementLogRepository.findAllByPlant(plant);
     }
 }
