@@ -5,6 +5,9 @@ import com.project.Plantoday.Service.AuthService;
 import com.project.Plantoday.exception.InvalidCredentialsException;
 import com.project.Plantoday.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
@@ -43,7 +52,10 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("User logged in successfully");
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getUsername());
+            String token = generateToken(userDetails.getUsername());
+            System.out.println(token);
+            return ResponseEntity.ok(token);
         } catch (InvalidCredentialsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -52,5 +64,12 @@ public class AuthController {
     @GetMapping("/login")
     public String loginPage() {
         return "login";
+    }
+
+    private String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .signWith(SignatureAlgorithm.HS512, "ajouuniversitydatabaseteamprojectplantoday".getBytes(StandardCharsets.UTF_8))
+                .compact();
     }
 }
