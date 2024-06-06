@@ -17,7 +17,7 @@ public class ManagementLog {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name="plant_id",nullable = false)

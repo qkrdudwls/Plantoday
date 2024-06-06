@@ -50,8 +50,4 @@ public class ManagementLogService {
         User user=userRepository.findByUsername(username);
         return managementLogRepository.findByUser(user);
     }
-    public List<ManagementLog> getLogs() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return managementLogRepository.findAllByUsername(username);
-    }
 }

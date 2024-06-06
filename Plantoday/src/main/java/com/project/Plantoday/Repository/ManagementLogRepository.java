@@ -12,5 +12,4 @@ import java.util.List;
 public interface ManagementLogRepository extends JpaRepository<ManagementLog, Long> {
     List<ManagementLog> findAllByPlant(Plant plant);
     List<ManagementLog> findByUser(User user);
-    List<ManagementLog> findAllByUsername(String username);
 }
