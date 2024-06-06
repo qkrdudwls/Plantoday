@@ -19,6 +19,11 @@ public class AuthController {
         return ResponseEntity.ok("User registered successfully");
     }
 
+    @GetMapping("/register")
+    public String registerPage(){
+        return "register";
+    }
+
     @PostMapping("/login")
     public String login(@RequestBody UserDTO userDTO) {
         authService.login(userDTO.getUsername(),userDTO.getPassword());
