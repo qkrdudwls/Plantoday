@@ -1,4 +1,5 @@
 package com.project.Plantoday.Entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -25,5 +26,6 @@ public class User {
     private LocalDateTime joinedAt;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Plant> plants;
 }

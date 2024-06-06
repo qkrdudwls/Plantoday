@@ -1,5 +1,6 @@
 package com.project.Plantoday.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class ManagementLog {
 
     @ManyToOne
     @JoinColumn(name="plant_id",nullable = false)
+    @JsonIgnore
     private Plant plant;
 
     @Column(nullable = false)
