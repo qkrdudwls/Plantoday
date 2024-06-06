@@ -31,8 +31,8 @@ public class ManagementLogController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ManagementLog>> getAllManagementLogsForUser() {
-        return ResponseEntity.ok(managementLogService.getAllLogsForUser());
+    public ResponseEntity<List<ManagementLog>> getAllManagementLogs() {
+        return ResponseEntity.ok(managementLogService.getAllLogs());
     }
 
 }
