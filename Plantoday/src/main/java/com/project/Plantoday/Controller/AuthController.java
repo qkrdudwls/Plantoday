@@ -5,6 +5,7 @@ import com.project.Plantoday.Service.AuthService;
 import com.project.Plantoday.exception.InvalidCredentialsException;
 import com.project.Plantoday.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,38 +14,34 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
     @PostMapping("/register")
-    public String register(@ModelAttribute UserDTO userDTO, Model model) {
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         try {
             authService.register(userDTO);
-            model.addAttribute("successMessage", "User registered successfully");
-            return "login";
+            return ResponseEntity.ok("User registered successfully");
         } catch (UserAlreadyExistsException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "register";
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+    public String registerPage() {
         return "register";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO userDTO, Model model) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         try {
             authService.login(userDTO.getUsername(), userDTO.getPassword());
-            return "redirect:/home";
+            return ResponseEntity.ok("User logged in successfully");
         } catch (InvalidCredentialsException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "login";
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+    public String loginPage() {
         return "login";
     }
 }
