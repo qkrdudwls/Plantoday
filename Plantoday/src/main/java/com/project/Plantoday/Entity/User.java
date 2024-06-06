@@ -28,4 +28,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Plant> plants;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<ManagementLog> managementLogs;
 }
