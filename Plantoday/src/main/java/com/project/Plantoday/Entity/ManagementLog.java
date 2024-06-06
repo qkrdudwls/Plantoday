@@ -1,5 +1,6 @@
 package com.project.Plantoday.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +15,10 @@ public class ManagementLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
     @ManyToOne
     @JoinColumn(name="plant_id",nullable = false)
     @JsonIgnore
