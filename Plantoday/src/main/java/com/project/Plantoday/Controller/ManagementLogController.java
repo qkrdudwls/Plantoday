@@ -2,6 +2,7 @@ package com.project.Plantoday.Controller;
 
 import com.project.Plantoday.DTO.ManagementLogDTO;
 import com.project.Plantoday.Entity.ManagementLog;
+import com.project.Plantoday.Entity.Plant;
 import com.project.Plantoday.Service.ManagementLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +31,9 @@ public class ManagementLogController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ManagementLog>> getAllManagementLogsForUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return ResponseEntity.ok(managementLogService.getAllLogsForUser(username));
+    public ResponseEntity<List<ManagementLog>> getPlants() {
+        List<ManagementLog> managementLogs  = managementLogService.getAllLogsForUser();
+        return ResponseEntity.ok(managementLogService.getLogs());
     }
 
 }

@@ -45,14 +45,13 @@ public class ManagementLogService {
         return managementLogRepository.findAllByPlant(plant);
     }
 
-    public List<ManagementLog> getAllLogsForUser(String username) {
-        User user = userRepository.findByUsername(username);
+    public List<ManagementLog> getAllLogsForUser() {
+        String username=SecurityContextHolder.getContext().getAuthentication().getName();
+        User user=userRepository.findByUsername(username);
         return managementLogRepository.findByUser(user);
     }
-
-    public List<ManagementLog> getLogsForUserAndPlant(String username, Long plantId){
-        User user=userRepository.findByUsername(username);
-        Plant plant=plantRepository .findById(plantId).orElseThrow(() -> new IllegalArgumentException("Invalid plant ID"));
-        return managementLogRepository.findByUserAndPlant(user,plant);
+    public List<ManagementLog> getLogs() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return managementLogRepository.findAllByUsername(username);
     }
 }
