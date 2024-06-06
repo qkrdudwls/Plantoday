@@ -50,8 +50,7 @@ public class PlantService {
     }
 
     public List<Plant> getPlantsForCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
         return plantRepository.findByUser(user);
     }
