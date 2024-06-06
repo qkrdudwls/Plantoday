@@ -7,5 +7,5 @@ public class PlantTypeDTO {
     private String plantTypeName;
     private Integer wateringInterval;
     private String temperatureInfo;
-    private String humidityInfo;
+    private String sunlight;
 }

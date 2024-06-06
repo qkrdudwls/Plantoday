@@ -25,7 +25,7 @@ public class PlantType {
     private String temperatureInfo;
 
     @Column(nullable = false)
-    private String humidityInfo;
+    private String sunlight;
 
     @OneToMany(mappedBy = "plantType")
     @JsonIgnore
