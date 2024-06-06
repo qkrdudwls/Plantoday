@@ -3,6 +3,8 @@ package com.project.Plantoday.Service;
 import com.project.Plantoday.DTO.UserDTO;
 import com.project.Plantoday.Entity.User;
 import com.project.Plantoday.Repository.UserRepository;
+import com.project.Plantoday.exception.InvalidCredentialsException;
+import com.project.Plantoday.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,9 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
 
     public void register(UserDTO userDTO) {
+        if(userRepository.findByUsername(userDTO.getUsername())!=null){
+            throw new UserAlreadyExistsException("User with username "+userDTO.getUsername()+" already exists.");
+        }
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -31,16 +36,12 @@ public class AuthService {
     }
     public void login(String username, String password) {
         User user = userRepository.findByUsername(username);
+        if(user==null){
+            throw new InvalidCredentialsException("User with username "+username+" does not exists.");
+        }
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }
     }
-/*
-   public void login(String username, String password) {
-        Authentication authentication=authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username,password));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-   }
 
- */
 }
