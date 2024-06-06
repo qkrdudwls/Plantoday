@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
 
     @PostMapping("/register")
@@ -25,12 +24,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO) {
-        authService.login(userDTO.getUsername(),userDTO.getPassword());
-        return "redirect:/home";
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+        authService.login(userDTO.getUsername(), userDTO.getPassword());
+        return ResponseEntity.ok("User logged in successfully");
     }
+
     @GetMapping("/login")
     public String loginPage(){
         return "login";
     }
+
 }

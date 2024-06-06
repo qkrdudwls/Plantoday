@@ -29,10 +29,18 @@ public class AuthService {
         user.setJoinedAt(LocalDateTime.now());
         userRepository.saveAndFlush(user);
     }
-
+    public void login(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+    }
+/*
    public void login(String username, String password) {
         Authentication authentication=authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username,password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
    }
+
+ */
 }

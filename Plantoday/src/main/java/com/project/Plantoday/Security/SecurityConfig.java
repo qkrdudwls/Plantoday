@@ -22,15 +22,31 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-        http.csrf(CsrfConfigurer::disable)
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .authorizeHttpRequests(auth->auth.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
-                .formLogin(form->form.loginPage("/auth/login").permitAll())
-                .logout(logout->logout.permitAll());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/process-login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/auth/login?error=true")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/login?logout=true")
+                        .permitAll()
+                );
+
         return http.build();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
