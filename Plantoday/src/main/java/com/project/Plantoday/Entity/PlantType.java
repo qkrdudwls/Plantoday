@@ -1,5 +1,6 @@
 package com.project.Plantoday.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,5 +28,6 @@ public class PlantType {
     private String humidityInfo;
 
     @OneToMany(mappedBy = "plantType")
+    @JsonIgnore
     private List<Plant> plants;
 }

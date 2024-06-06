@@ -1,5 +1,6 @@
 package com.project.Plantoday.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Plant {
 
     @ManyToOne
     @JoinColumn(name="plant_type_id",nullable = false)
+    @JsonManagedReference
     private PlantType plantType;
 
     // 이름
@@ -46,5 +48,6 @@ public class Plant {
     private String memo;
 
     @OneToMany(mappedBy = "plant")
+    @JsonManagedReference
     private List<ManagementLog> managementLogs;
 }
