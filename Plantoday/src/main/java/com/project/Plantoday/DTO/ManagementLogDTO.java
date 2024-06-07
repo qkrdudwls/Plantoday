@@ -11,7 +11,6 @@ public class ManagementLogDTO {
     private Integer watering;
     private String photoUrl;
     private Integer currentTemp;
-    private Integer currentHumi;
     private String sunlight;
     private String memo;
 }
