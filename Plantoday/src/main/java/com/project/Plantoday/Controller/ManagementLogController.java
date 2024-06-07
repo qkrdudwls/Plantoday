@@ -2,12 +2,9 @@ package com.project.Plantoday.Controller;
 
 import com.project.Plantoday.DTO.ManagementLogDTO;
 import com.project.Plantoday.Entity.ManagementLog;
-import com.project.Plantoday.Entity.Plant;
 import com.project.Plantoday.Service.ManagementLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
