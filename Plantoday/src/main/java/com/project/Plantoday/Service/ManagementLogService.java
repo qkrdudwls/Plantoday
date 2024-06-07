@@ -27,6 +27,7 @@ public class ManagementLogService {
         User user=userRepository.findByUsername(username);
         Plant plant=plantRepository.findByIdAndUser(managementLogDTO.getPlantId(),user).orElseThrow(()->new IllegalArgumentException("Plant not found or not authorized"));
         ManagementLog managementLog=new ManagementLog();
+        managementLog.setUser(user);
         managementLog.setPlant(plant);
         managementLog.setWatering(managementLogDTO.getWatering());
         managementLog.setCurrentTemp(managementLogDTO.getCurrentTemp());
